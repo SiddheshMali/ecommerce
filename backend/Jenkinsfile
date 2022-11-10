@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git branch: 'main', url: 'https://github.com/siswarnava-sss/ecommerce2'
+                git branch: 'main', url: 'https://github.com/SiddheshMali/ecommerce.git'
             }
         }
         stage("Go to backend folder"){
@@ -18,11 +18,11 @@ pipeline{
         {
             steps{
                 script{
-                    withSonarQubeEnv(credentialsId: 'sonar-api'){
+                    withSonarQubeEnv(credentialsId: 'sonar-api-2'){
                         sh 'mvn -f ./backend/pom.xml clean verify sonar:sonar \
-                                -Dsonar.projectKey=springapp \
-                                -Dsonar.host.url=http://20.207.201.150:9000 \
-                                -Dsonar.login=sqp_940544f83c0b4c3d8e8588b83b4ccf17f0455e4d'
+                                    -Dsonar.projectKey=shopapp \
+                                    -Dsonar.host.url=http://52.140.116.252:9000 \
+                                    -Dsonar.login=sqp_cccdf9e8c2f5c7c40d08ba6a42cfffe593a74080'
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline{
         stage("nexus"){
             steps{
                 script{
-                    nexusArtifactUploader artifacts: [[artifactId: 'shop-api', classifier: '', file: './backend/target/ecommerce-spring-boot.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'me.zhulin', nexusUrl: '20.207.201.150:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'springapp', version: '1.0.0-SNAPSHOT'
+                    nexusArtifactUploader artifacts: [[artifactId: 'shop-api', classifier: '', file: './backend/target/ecommerce-spring-boot.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'me.zhulin', nexusUrl: '52.140.116.252:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'shopapp', version: '0.0.1-SNAPSHOT'
                 }
             }
         }
